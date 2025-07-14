@@ -31,17 +31,23 @@ public class BookController2_4 {
         - 기본값은 id 오름차, title은 가나다순, price는 내림차
      */
     @GetMapping
-    public List<Book> list(@RequestParam(defaultValue = "id") String sort) {
+    public Map<String, Object> list(@RequestParam(defaultValue = "id") String sort) {
 //        List<Book> bookList = new ArrayList<>();
 //        for (Long key : bookStore.keySet()) {
 //            bookList.add(bookStore.get(key));
 //        }
 
-        return new ArrayList<>(bookStore.values())
+        List<Book> bookList = new ArrayList<>(bookStore.values())
                 .stream()
                 .sorted(getComparator(sort))
-                .collect(Collectors.toList())
-                ;
+                .collect(Collectors.toList());
+
+        int count = bookStore.size();
+
+        return Map.of(
+                "count", count,
+                "bookList", bookList
+        );
 
     }
 
@@ -62,6 +68,7 @@ public class BookController2_4 {
 
         return comparing;
     }
+
 
     // 2. 개별 조회
     @GetMapping("/{id}")
@@ -85,9 +92,10 @@ public class BookController2_4 {
         return "도서 추가 완료: " + book.getId();
     }
 
-    // 삭제 요청    /api/v2-4/books/99 -> 삭제 실패 메시지 응답
+    // 삭제 요청   /api/v2-4/books/99  -> 삭제실패 메시지 응답
     @DeleteMapping("/{id}")
     public String deleteBook(@PathVariable Long id) {
+
         Book removed = bookStore.remove(id);
 
         if (removed == null) {
@@ -110,33 +118,13 @@ public class BookController2_4 {
         }
 
         foundBook.updateBookInfo(title, author, price);
-/*
-        foundBook.setTitle(title);
-        foundBook.setAuthor(author);
-        foundBook.setPrice(price);
-*/
 
         return "도서 수정 완료: id - " + id;
-
     }
-/*
-    @GetMapping
-    public List<Book> list(@RequestParam(value = "sort", defaultValue = "id") String sort) {
-        return bookStore.values()
-                .stream()
-                .sorted((b1, b2) -> {
-                    switch (sort) {
-                        case "title":
-                            return b1.getTitle().compareTo(b2.getTitle());
-                        case "price":
-                            return Integer.compare(b2.getPrice(), b1.getPrice());
-                        case "id":
-                        default:
-                            return Long.compare(b1.getId(), b2.getId());
-                    }
-                })
-                .collect(Collectors.toList());
-    }
-*/
 
+    // 책이 몇권 저장됐는지 알려주기
+    @GetMapping("/count")
+    public String count() {
+        return "현재 저장된 도서의 개수: " + bookStore.size() + "권";
+    }
 }
