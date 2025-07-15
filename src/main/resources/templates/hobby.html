@@ -12,7 +12,7 @@
     <h2 th:text="${username}"></h2>
 
     <ul>
-        <li th:each="hobby : ${hobbies}"></li>
+        <li th:each="hobby : ${hobbies}" th:text="${hobby}"></li>
     </ul>
 </body>
 </html>
