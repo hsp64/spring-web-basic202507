@@ -12,7 +12,7 @@ public class CorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry
                 // 요청을 허용할 서버의 URL
-                .addMapping("/api/v3-3/**")
+                .addMapping("/api/v3-3/*")
                 // 어떤 클라이언트를 허용할 것인지
                 .allowedOrigins("http://127.0.0.1:5500")
                 // 어떤 요청 방식을 허용할지

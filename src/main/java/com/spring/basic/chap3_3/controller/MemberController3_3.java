@@ -100,6 +100,4 @@ public class MemberController3_3 {
 
         return ResponseEntity.ok().body(foundMember);
     }
-
-
 }
