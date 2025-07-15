@@ -29,37 +29,38 @@ public class MemberController3_3 {
 
         memberStore.put(member1.getUid(), member1);
         memberStore.put(member2.getUid(), member2);
+
     }
 
     // 회원 생성
     @PostMapping
     public ResponseEntity<String> join(@RequestBody Member member) {
 
-        // 계정이 비어있는지 확인
+        // 계정이 비어있는 지 확인
         if (member.getAccount().isBlank()) {
             return ResponseEntity
                     .badRequest()
-                    .body("꼐정은 필수값입니다.");
+                    .body("계정은 필수값입니다.");
         }
+
         member.setUid(UUID.randomUUID().toString());
         memberStore.put(member.getUid(), member);
         return ResponseEntity
                 .ok()
                 .body("새로운 멤버가 생성됨! - nickname : " + member.getNickname());
-
     }
 
     // 전체 조회
     @GetMapping
     public ResponseEntity<?> list() {
 
-/*        try {
+        /*try {
             String str = null;
             str.charAt(0);
         } catch (Exception e) {
-            throw ResponseEntity
+            return ResponseEntity
                     .internalServerError()
-                    .body("서버측 에러입니다. ㅈㅅ");
+                    .body("서버측 에러입니다 ㅈㅅ");
         }*/
 
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -75,15 +76,29 @@ public class MemberController3_3 {
     // 단일 조회 (계정명으로 조회)
     @GetMapping("/{account}")
     public ResponseEntity<?> findOne(@PathVariable String account) {
-        Member foundMember = memberStore.values()
-                .stream()
-                .filter(member -> member.getAccount().equals(account))
-                .findFirst()
-                .orElse(null);
-        if (foundMember == null) {
-            return ResponseEntity.status(404).body(account + "는(은) 존재하지 않는 계정입니다.");
+
+        Member foundMember = null;
+
+        for (Member member : memberStore.values()) {
+            if (member.getAccount().equals(account)) {
+                foundMember = member;
+            }
         }
+
+//        Member foundMember = memberStore.values()
+//                .stream()
+//                .filter(member -> member.getAccount().equals(account))
+//                .findFirst()
+//                .orElse(null);
+
+        if (foundMember == null) {
+            return ResponseEntity
+                    .status(404)
+                    .body(account + "는(은) 존재하지 않는 계정입니다.");
+        }
+
         return ResponseEntity.ok().body(foundMember);
     }
-}
 
+
+}
