@@ -6,20 +6,25 @@ import java.util.UUID;
 
 @Getter @Setter @ToString
 @EqualsAndHashCode
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class Member {
 
     @Builder.Default
-    private String uid= UUID.randomUUID().toString(); // 회원 식별번호
+    private String uid = UUID.randomUUID().toString(); // 회원 식별번호
+
     private String account;
     private String password;
     private String nickname;
 
-/*    public Member() {
-        this.uid = UUID.randomUUID().toString();
-    }*/
+    // DTO를 Entity로 변환하는 생성자
+//    public Member(MemberCreateDto dto) {
+//        this.uid = UUID.randomUUID().toString();
+//        this.account = dto.getUserAcc();
+//        this.password = dto.getPw();
+//        this.nickname = dto.getNick();
+//    }
 
     /*private Member(Builder builder) {
         this.uid = UUID.randomUUID().toString();

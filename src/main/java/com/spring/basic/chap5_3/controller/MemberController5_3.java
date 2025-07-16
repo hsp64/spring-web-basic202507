@@ -31,6 +31,7 @@ public class MemberController5_3 {
                 .password("12345678")
                 .nickname("핑돌이")
                 .build();
+
         memberStore.put(m1.getAccount(), m1);
         memberStore.put(m2.getAccount(), m2);
     }
@@ -55,6 +56,7 @@ public class MemberController5_3 {
     public ResponseEntity<?> memberList() {
 
         log.trace("memberList 메서드 호출됨");
+
         log.info("/api/v5-3/members : GET - 요청 시작!");
 
         List<Member> members = new ArrayList<>(memberStore.values());
@@ -65,6 +67,7 @@ public class MemberController5_3 {
             log.warn("회원 데이터가 없습니다.");
             return ResponseEntity.notFound().build();
         }
+
 
         try {
             log.debug("members[0].nickname = {}", members.get(0).getNickname());
@@ -85,11 +88,21 @@ public class MemberController5_3 {
 
         log.info("param - {}", dto);
 
-        return null;
+        // 데이터 베이스 저장 : UID를 포함, 비밀번호를 인코딩
+        // dto -> entity로 변환하는 과정
+//        Member member = Member.builder()
+//                .account(dto.getUserAcc())
+//                .password(dto.getPw())
+//                .nickname(dto.getNick())
+//                .build();
 
-/*
-        memberStore.put(member.getAccount(), member);
+//        Member member = new Member(dto);
 
-        return ResponseEntity.ok("created member: " + member);*/
+        Member member = MemberCreateDto.from(dto);
+
+        memberStore.put(dto.getUserAcc(), member);
+
+        return ResponseEntity.ok("created member: " + member);
     }
+
 }
