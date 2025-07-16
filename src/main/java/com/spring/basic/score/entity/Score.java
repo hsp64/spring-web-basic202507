@@ -3,7 +3,10 @@ package com.spring.basic.score.entity;
 import lombok.*;
 
 // 학생 한명의 성적정보를 저장
-@Setter @Getter @ToString
+
+@Setter
+@Getter
+@ToString
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,3 +18,4 @@ public class Score {
     private int total; // 총점
     private double average; // 평균
 }
+
