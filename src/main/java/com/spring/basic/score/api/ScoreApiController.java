@@ -54,7 +54,21 @@ public class ScoreApiController {
                 .map(ScoreListResponse::from)
                 .collect(Collectors.toList());
 
+        // 정렬 처리
+        responses.sort(getScoreComparator(sort));
+
         return ResponseEntity.ok().body(responses);
+    }
+
+
+    private Comparator<ScoreListResponse> getScoreComparator(String sort) {
+        Comparator<ScoreListResponse> comparator = null;
+        switch (sort) {
+            case "id" -> comparator = Comparator.comparing(ScoreListResponse::getId);
+            case "name" -> comparator = Comparator.comparing(ScoreListResponse::getMaskingName);
+            case "average" -> comparator = Comparator.comparing(ScoreListResponse::getAvg).reversed();
+        }
+        return comparator;
     }
 
     // 원본 리스트에서 석차를 구해서 세팅
