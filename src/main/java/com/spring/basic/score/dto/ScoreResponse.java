@@ -1,3 +1,4 @@
+/*
 package com.spring.basic.score.dto;
 
 import lombok.Builder;
@@ -15,3 +16,4 @@ public class ScoreResponse {
     private double avg; // 평균
     private int rank; // 석차 - 추후 확장용
 }
+*/

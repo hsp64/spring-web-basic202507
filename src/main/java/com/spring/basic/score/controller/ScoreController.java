@@ -1,3 +1,4 @@
+/*
 package com.spring.basic.score.controller;
 
 import com.spring.basic.score.dto.ScoreResponse;
@@ -117,3 +118,4 @@ public class ScoreController {
         };
     }
 }
+*/
