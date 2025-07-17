@@ -26,7 +26,7 @@ public class Score {
     }
 
     // 총점 평균을 구하는 메서드
-     public void calcTotalAndAverage() {
+    public void calcTotalAndAverage() {
         this.total = this.kor + this.eng + this.math;
         this.average = this.total / 3.0;
     }
